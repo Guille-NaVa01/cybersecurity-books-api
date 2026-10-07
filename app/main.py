@@ -46,6 +46,29 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ── Fail2Ban Access Log Setup & Middleware ────────────────────────────────────
+import logging
+from logging.handlers import RotatingFileHandler
+from fastapi import Request
+
+try:
+    os.makedirs("/var/log/app", exist_ok=True)
+    access_logger = logging.getLogger("fail2ban.access")
+    access_logger.setLevel(logging.INFO)
+    file_handler = RotatingFileHandler("/var/log/app/access.log", maxBytes=10*1024*1024, backupCount=3)
+    file_handler.setFormatter(logging.Formatter("%(message)s"))
+    access_logger.addHandler(file_handler)
+except Exception:
+    access_logger = None
+
+@app.middleware("http")
+async def log_access_for_fail2ban(request: Request, call_next):
+    client_ip = request.client.host if request.client else "127.0.0.1"
+    response = await call_next(request)
+    if access_logger:
+        access_logger.info(f'{client_ip} - "{request.method} {request.url.path} HTTP/1.1" {response.status_code}')
+    return response
+
 # ── JWT validation ─────────────────────────────────────────────────────────────
 async def validate_token(
     credentials: HTTPAuthorizationCredentials = Depends(security),
