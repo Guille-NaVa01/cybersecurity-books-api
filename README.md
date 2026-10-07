@@ -1,5 +1,17 @@
 Backend API developed in Python (FastAPI) for managing the book catalog. It requires a valid JWT to be provided in the Authorization: Bearer <token> header. The API validates token signatures in real time using the RS256 public keys exposed through Keycloak's JWKS endpoint.
 
+# Repos needed
+
+This repository is part of a complete project that requires the following repositories:
+
+frontend: https://github.com/Guille-NaVa01/cybersecurity-books-frontend.git
+
+backend: https://github.com/Guille-NaVa01/cybersecurity-books-api.git
+
+auth : https://github.com/Guille-NaVa01/cybersecurity-identity-auth-lab.git
+
+To run the complete project, you must download/clone all three repositories.
+
 # Backend Dashboard — Books API
 
 FastAPI backend para el catálogo de libros. Valida JWTs emitidos por Keycloak antes de procesar cada request.
