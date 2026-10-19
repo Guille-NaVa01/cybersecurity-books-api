@@ -13,7 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY jail.local /etc/fail2ban/jail.local
 COPY filter-http-flood.conf /etc/fail2ban/filter.d/http-flood.conf
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN sed -i 's/\r$//' /entrypoint.sh /etc/fail2ban/jail.local /etc/fail2ban/filter.d/http-flood.conf && \
+    chmod +x /entrypoint.sh
 
 COPY app ./app
 

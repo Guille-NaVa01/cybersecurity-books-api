@@ -34,7 +34,7 @@ FastAPI backend para el catálogo de libros. Valida JWTs emitidos por Keycloak a
 ## Correr con Docker (recomendado)
 
 ```bash
-# Desde ldap-keycloak-oauth2-lab/
+# Desde cybersecurity-identity-auth-lab
 docker compose up -d --build
 ```
 
